@@ -1,11 +1,13 @@
 package com.esprit.appsmart.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +22,7 @@ import com.esprit.appsmart.model.Client;
 import com.esprit.appsmart.repository.ClientRepository;
 
 @RestController
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/smart")
 public class ClientController {
 	 @Autowired
@@ -32,6 +35,8 @@ public class ClientController {
 
 	    @PostMapping("/clients")
 	    public Client createClient(@Valid @RequestBody Client client) {
+	    	client.setCreatedAt(new Date());
+	    	client.setUpdatedAt(new Date());
 	        return clientRepository.save(client);
 	    }
 
@@ -49,6 +54,9 @@ public class ClientController {
 	                .orElseThrow(() -> new ResourceNotFoundException("Client", "id", clientId));
 
 	        client.setNom(clientDetails.getNom());
+	        client.setPrenom(clientDetails.getPrenom());
+	        client.setTel(clientDetails.getTel());
+	        client.setUpdatedAt(new Date());
 
 	        Client updatedClient = clientRepository.save(client);
 	        return updatedClient;

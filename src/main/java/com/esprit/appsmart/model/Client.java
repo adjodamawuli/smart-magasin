@@ -1,12 +1,14 @@
 package com.esprit.appsmart.model;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -39,7 +41,10 @@ public class Client {
     private Date updatedAt;
     
     private String tel;
-
+ 
+    @OneToMany(mappedBy="client")
+    private List<Commande> commandes;
+    
 	public Date getCreatedAt() {
 		return createdAt;
 	}
@@ -86,5 +91,13 @@ public class Client {
 
 	public void setPrenom(String prenom) {
 		this.prenom = prenom;
+	}
+
+	public List<Commande> getCommandes() {
+		return commandes;
+	}
+
+	public void setCommandes(List<Commande> commandes) {
+		this.commandes = commandes;
 	}
 }
